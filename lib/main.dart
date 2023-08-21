@@ -15,78 +15,6 @@ void main() async {
   runApp(const MyApp());
 }
 
-class DatabaseHelper {
-  static final DatabaseHelper instance = DatabaseHelper._getInstance();
-  static Database? _database;
-
-  var patients;
-
-  DatabaseHelper._getInstance();
-
-  Future<Database> get database async {
-    if (_database != null) return _database!;
-    _database = await initDatabase();
-    return _database!;
-  }
-
-  Future<Database> initDatabase() async {
-    String path = join(await getDatabasesPath(), 'hospital.db');
-    return await openDatabase(
-      path,
-      version: 1,
-      onCreate: (db, version) async {
-        await db.execute('''
-          CREATE TABLE doctor_schedule (
-            id INTEGER PRIMARY KEY,
-            doctor_name TEXT,
-            date TEXT,
-            duty TEXT
-          )
-        ''');
-      },
-    );
-  }
-
-  final _formKey = GlobalKey<FormState>();
-  late String fname;
-  late String lname;
-  late String email;
-  late String address;
-  late String patientid;
-  late String docid;
-  late String _uid;
-
-  void _onSubmitSignUp() async {
-    final isValid = _formKey.currentState!.validate();
-    FocusScope.of(context as BuildContext).unfocus();
-    if (isValid) {
-      try {
-        _uid = FirebaseAuth.instance.currentUser!.uid;
-
-        await patients.doc(_uid).set({
-          'fname': fname,
-          'lname': lname,
-          'email': email,
-          'address': '',
-          'patientid': _uid,
-        });
-
-        _formKey.currentState!.reset();
-      } catch (error) {}
-    }
-  }
-
-  Future<List<Map<String, dynamic>>> getDoctorSchedule() async {
-    Database db = await instance.database;
-    return await db.query('doctor_schedule');
-  }
-
-  Future<void> insertDoctorSchedule(Map<String, dynamic> row) async {
-    Database db = await instance.database;
-    await db.insert('doctor_schedule', row);
-  }
-}
-
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -134,6 +62,8 @@ class _AdminScreenState extends State<AdminScreen> {
       'doctor_name': _doctorNameController.text,
       'date': DateFormat('yyyy-MM-dd').format(_selectedDate),
       'duty': _selectedDuty,
+      'approved': false,
+      'reserved': false
     };
 
     await FirebaseFirestore.instance.collection('schedule').doc().set(newRow);
@@ -261,6 +191,11 @@ class _AdminScreenState extends State<AdminScreen> {
                     subtitle: Text(
                       'Date: ${_doctorSchedule[index]['date']} - ${_doctorSchedule[index]['duty']}',
                     ),
+                    trailing: _doctorSchedule[index]['approved']
+                        ? const Text('Approved', style: TextStyle(color: Colors.green))
+                        : _doctorSchedule[index]['reserved']
+                            ? const Text('Reserved', style: TextStyle(color: Colors.amber),)
+                            : const Text('Available'),
                   );
                 },
               ),

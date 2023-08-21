@@ -17,7 +17,10 @@ import 'package:flutter/foundation.dart'
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
-      return web;
+      throw UnsupportedError(
+        'DefaultFirebaseOptions have not been configured for web - '
+        'you can reconfigure this by running the FlutterFire CLI again.',
+      );
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
@@ -46,31 +49,21 @@ class DefaultFirebaseOptions {
     }
   }
 
-  static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyBvsUFG-164UQhcOfhxKmjqGbQXbILnajI',
-    appId: '1:45472486798:web:d56358b1663a33eac240df',
-    messagingSenderId: '45472486798',
-    projectId: 'medkare-b6510',
-    authDomain: 'medkare-b6510.firebaseapp.com',
-    storageBucket: 'medkare-b6510.appspot.com',
-    measurementId: 'G-4FGKFSP6MS',
-  );
-
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyC4-5LxEDGRIi0T5XdZJ9jR3Gw_iyKyMHk',
-    appId: '1:45472486798:android:c748854c5079e82bc240df',
-    messagingSenderId: '45472486798',
-    projectId: 'medkare-b6510',
-    storageBucket: 'medkare-b6510.appspot.com',
+    apiKey: 'AIzaSyDpmW8J4tPfD8Ixidn1n4upGrhxtOcJtQE',
+    appId: '1:1009749132549:android:ea395e30bc9a97de25236c',
+    messagingSenderId: '1009749132549',
+    projectId: 'inspire-med-64f84',
+    storageBucket: 'inspire-med-64f84.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyDGYjz9HbTnOkwnxVbCYQrymh7RIHIqw8M',
-    appId: '1:45472486798:ios:e2a518c9aa0a7d5fc240df',
-    messagingSenderId: '45472486798',
-    projectId: 'medkare-b6510',
-    storageBucket: 'medkare-b6510.appspot.com',
-    iosClientId: '45472486798-m0sli4q9tbutkadn1da9t7ornslh976s.apps.googleusercontent.com',
+    apiKey: 'AIzaSyCzVXrhxIWnthL79a8eZ_N8DzS6C4DTgYg',
+    appId: '1:1009749132549:ios:64c3e73e85186caf25236c',
+    messagingSenderId: '1009749132549',
+    projectId: 'inspire-med-64f84',
+    storageBucket: 'inspire-med-64f84.appspot.com',
+    iosClientId: '1009749132549-gkba2idge5gob242omj1dce5lbsdc7pm.apps.googleusercontent.com',
     iosBundleId: 'com.example.medkareAdmin',
   );
 }
