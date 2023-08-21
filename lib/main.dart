@@ -192,7 +192,7 @@ class _AdminScreenState extends State<AdminScreen> {
                       'Date: ${_doctorSchedule[index]['date']} - ${_doctorSchedule[index]['duty']}',
                     ),
                     trailing: _doctorSchedule[index]['approved']
-                        ? const Text('Approved', style: TextStyle(color: Colors.green))
+                        ? const Text('Booked', style: TextStyle(color: Colors.green))
                         : _doctorSchedule[index]['reserved']
                             ? const Text('Reserved', style: TextStyle(color: Colors.amber),)
                             : const Text('Available'),
